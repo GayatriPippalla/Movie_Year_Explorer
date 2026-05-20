@@ -76,8 +76,4 @@ To use your own OMDb API key, replace `ApiConstants.apiKey`.
 4. Tap a movie card to open the Movie Details screen.
 5. Use the heart icon to add/remove from favorites.
 
----
-
-## License
-Add your preferred license information here (or remove this section if not needed).
 
