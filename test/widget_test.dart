@@ -7,24 +7,42 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:provider/provider.dart';
+import 'package:dio/dio.dart';
 
-import 'package:movie_year_explorer/main.dart';
+import 'package:movie_year_explorer/app.dart';
+import 'package:movie_year_explorer/core/config/app_config.dart';
+import 'package:movie_year_explorer/core/network/dio_client.dart';
+import 'package:movie_year_explorer/repositories/movie_repository.dart';
+import 'package:movie_year_explorer/services/movie_service.dart';
+import 'package:movie_year_explorer/viewmodels/movie_viewmodel.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('App smoke test', (WidgetTester tester) async {
+    // Ensure config is initialized for tests.
+    AppConfig.instance = AppConfig(
+      appName: 'Test',
+      baseUrl: 'https://example.com',
+      flavor: Flavor.dev,
+    );
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    final dio = DioClient().dio;
+    final service = MovieService(dio);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (_) => MovieViewModel(MovieRepository(service)),
+          ),
+        ],
+        child: const MyApp(),
+      ),
+    );
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Basic sanity check: Home screen title exists.
+    expect(find.text('Movie Year Explorer'), findsOneWidget);
   });
 }
+
+

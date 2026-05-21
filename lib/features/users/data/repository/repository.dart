@@ -1,13 +1,28 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
+import 'package:dio/dio.dart';
 
-Future<List<UserModel>> getUsers() async {
+import '../parsers/user_parser.dart';
+import '../models/user_model.dart';
 
-  final response = await dio.get('/users');
+class UserRepository {
+  final Dio dio;
 
-  final users = await compute(
-    parseUsers,
-    response.data,
-  );
+  UserRepository(this.dio);
 
-  return users;
+  Future<List<UserModel>> getUsers() async {
+    final response = await dio.get('/users');
+
+    final responseBody =
+        response.data is String ? response.data as String : jsonEncode(response.data);
+
+    final users = await compute(
+      parseUsers,
+      responseBody,
+    );
+
+    return users;
+  }
 }
+
