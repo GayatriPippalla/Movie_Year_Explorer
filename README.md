@@ -69,15 +69,11 @@ To use your own OMDb API key, replace `ApiConstants.apiKey`.
 
 ---
 
-## How to Use
+## How To Use
 1. On the Home screen, type a **4-digit year** (example: `2020`).
 2. Results load automatically after a short debounce delay.
 3. Scroll down to load more results (pagination).
 4. Tap a movie card to open the Movie Details screen.
 5. Use the heart icon to add/remove from favorites.
 
----
-
-## License
-Add your preferred license information here (or remove this section if not needed).
 
