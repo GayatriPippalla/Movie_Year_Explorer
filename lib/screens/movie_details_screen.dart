@@ -127,7 +127,7 @@ class _MovieDetailsScreenState
               fit: BoxFit.cover,
 
               errorBuilder:
-                  (_, __, ___) {
+                  (context, error, stackTrace) {
 
                 return Container(
 

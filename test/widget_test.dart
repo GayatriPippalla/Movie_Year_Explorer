@@ -5,10 +5,8 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
-import 'package:dio/dio.dart';
 
 import 'package:movie_year_explorer/app.dart';
 import 'package:movie_year_explorer/core/config/app_config.dart';

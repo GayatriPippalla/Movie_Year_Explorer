@@ -5,77 +5,79 @@ import '../viewmodels/movie_viewmodel.dart';
 import 'movie_details_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() =>
-      _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState
-    extends State<HomeScreen> {
-
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final vm = context.watch<MovieViewModel>();
 
-    final vm =
-    context.watch<MovieViewModel>();
+    final screenWidth =
+    MediaQuery.of(context).size.width;
 
+final isMobile = screenWidth < 600;
+
+final isTablet =
+    screenWidth >= 600 &&
+    screenWidth < 1000;
+
+final isDesktop =
+    screenWidth >= 1000;
+
+final posterWidth =
+    isDesktop
+        ? 150.0
+        : isTablet
+            ? 120.0
+            : 90.0;
+
+final posterHeight =
+    isDesktop
+        ? 220.0
+        : isTablet
+            ? 170.0
+            : 130.0;
+
+final titleFontSize =
+    isDesktop
+        ? 28.0
+        : isTablet
+            ? 24.0
+            : 20.0;
     return Scaffold(
-
       appBar: AppBar(
-
         title: const Text(
-
           'Movie Year Explorer',
-
           style: TextStyle(
-
-            fontWeight:
-            FontWeight.bold,
-
+            fontWeight: FontWeight.bold,
             letterSpacing: 1,
           ),
         ),
       ),
-
       body: Column(
-
         children: [
-
           // SEARCH BAR
           Padding(
-
-            padding:
-            const EdgeInsets.all(12),
-
+            padding: EdgeInsets.all(
+              screenWidth * 0.02,
+            ),
             child: TextField(
-
-              keyboardType:
-              TextInputType.number,
-
+              keyboardType: TextInputType.number,
               maxLength: 4,
-
               onChanged: (value) {
-
                 vm.onSearchChanged(value);
               },
-
               decoration: InputDecoration(
-
                 counterText: '',
-
-                hintText:
-                'Enter release year (2025)',
-
-                hintStyle:
-                const TextStyle(
+                hintText: 'Enter release year (2025)',
+                hintStyle: const TextStyle(
                   color: Colors.grey,
                 ),
-
-                prefixIcon:
-                const Icon(
+                prefixIcon: const Icon(
                   Icons.calendar_today,
                   color: Colors.red,
                 ),
@@ -84,24 +86,17 @@ class _HomeScreenState
           ),
 
           Expanded(
-
             child: Builder(
-
               builder: (_) {
-
                 // LOADING
                 if (vm.isLoading) {
-
                   return const Center(
-
-                    child:
-                    CircularProgressIndicator(),
+                    child: CircularProgressIndicator(),
                   );
                 }
 
                 // ERROR
                 if (vm.error != null) {
-
                   return Center(
                     child: Text(vm.error!),
                   );
@@ -109,35 +104,25 @@ class _HomeScreenState
 
                 // EMPTY
                 if (vm.movies.isEmpty) {
-
-                  return const Center(
-
+                  return Center(
                     child: Column(
-
                       mainAxisAlignment:
-                      MainAxisAlignment.center,
-
+                          MainAxisAlignment.center,
                       children: [
-
                         Text(
-
                           'Search movies by year',
-
                           style: TextStyle(
-
-                            fontSize: 24,
-
+                            fontSize:
+                                screenWidth > 600
+                                    ? 32
+                                    : 24,
                             fontWeight:
-                            FontWeight.bold,
+                                FontWeight.bold,
                           ),
                         ),
-
-                        SizedBox(height: 10),
-
-                        Text(
-
+                        const SizedBox(height: 10),
+                        const Text(
                           'Try 2020, 2021, 2025',
-
                           style: TextStyle(
                             color: Colors.grey,
                           ),
@@ -150,131 +135,114 @@ class _HomeScreenState
                 // SUCCESS
                 return NotificationListener<
                     ScrollNotification>(
-
-                  onNotification:
-                      (scrollInfo) {
-
+                  onNotification: (scrollInfo) {
                     if (scrollInfo.metrics.pixels >=
-                        scrollInfo.metrics.maxScrollExtent - 200) {
-
+                        scrollInfo.metrics
+                                .maxScrollExtent -
+                            200) {
                       vm.loadMore();
                     }
 
                     return true;
                   },
-
                   child: ListView.builder(
-
                     itemCount:
-                    vm.movies.length + 1,
-
-                    itemBuilder:
-                        (_, index) {
-
+                        vm.movies.length + 1,
+                    itemBuilder: (_, index) {
                       // PAGINATION LOADER
                       if (index ==
                           vm.movies.length) {
-
                         return vm
-                            .isPaginationLoading
-
+                                .isPaginationLoading
                             ? const Padding(
-
-                          padding:
-                          EdgeInsets.all(20),
-
-                          child: Center(
-
-                            child:
-                            CircularProgressIndicator(),
-                          ),
-                        )
-
+                                padding:
+                                    EdgeInsets.all(
+                                        20),
+                                child: Center(
+                                  child:
+                                      CircularProgressIndicator(),
+                                ),
+                              )
                             : const SizedBox();
                       }
 
                       final movie =
-                      vm.movies[index];
+                          vm.movies[index];
 
                       return GestureDetector(
-
                         onTap: () {
-
                           Navigator.push(
-
                             context,
-
                             MaterialPageRoute(
-
                               builder: (_) =>
                                   MovieDetailsScreen(
-
-                                    imdbId:
+                                imdbId:
                                     movie.imdbId,
-                                  ),
+                              ),
                             ),
                           );
                         },
-
                         child: Card(
-
                           color:
-                          const Color(0xFF1A1A1A),
-
+                              const Color(0xFF1A1A1A),
                           elevation: 5,
-
                           shape:
-                          RoundedRectangleBorder(
-
+                              RoundedRectangleBorder(
                             borderRadius:
-                            BorderRadius.circular(16),
+                                BorderRadius.circular(
+                                    16),
                           ),
-
                           margin:
-                          const EdgeInsets.symmetric(
-
-                            horizontal: 12,
-
+                              EdgeInsets.symmetric(
+                            horizontal:
+                                screenWidth * 0.02,
                             vertical: 8,
                           ),
-
                           child: Padding(
-
                             padding:
-                            const EdgeInsets.all(10),
-
+                                const EdgeInsets.all(
+                                    10),
                             child: Row(
-
                               children: [
-
                                 // POSTER
                                 ClipRRect(
-
                                   borderRadius:
-                                  BorderRadius.circular(12),
-
-                                  child: Image.network(
-
+                                      BorderRadius
+                                          .circular(
+                                              12),
+                                  child:
+                                      Image.network(
                                     movie.poster,
-
-                                    width: 90,
-
-                                    height: 130,
-
-                                    fit: BoxFit.cover,
-
-                                    errorBuilder:
-                                        (_, __, ___) {
-
+                                    width:
+                                        screenWidth >
+                                                600
+                                            ? 120
+                                            : 90,
+                                    height:
+                                        screenWidth >
+                                                600
+                                            ? 170
+                                            : 130,
+                                    fit:
+                                        BoxFit.cover,
+                                    errorBuilder: (context, error,
+                                        stackTrace) {
                                       return Container(
-
-                                        width: 90,
-
-                                        height: 130,
-
-                                        color: Colors.grey,
-
-                                        child: const Icon(
+                                        width:
+                                            screenWidth >
+                                                    600
+                                                ? 120
+                                                : 90,
+                                        height:
+                                            screenWidth >
+                                                    600
+                                                ? 170
+                                                : 130,
+                                        color:
+                                            Colors
+                                                .grey,
+                                        child:
+                                            const Icon(
                                           Icons.movie,
                                           size: 40,
                                         ),
@@ -283,112 +251,106 @@ class _HomeScreenState
                                   ),
                                 ),
 
-                                const SizedBox(width: 15),
+                                const SizedBox(
+                                    width: 15),
 
                                 Expanded(
-
                                   child: Column(
-
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-
+                                        CrossAxisAlignment
+                                            .start,
                                     children: [
-
                                       Text(
-
                                         movie.title,
-
                                         maxLines: 2,
-
                                         overflow:
-                                        TextOverflow.ellipsis,
-
+                                            TextOverflow
+                                                .ellipsis,
                                         style:
-                                        const TextStyle(
-
-                                          fontSize: 20,
-
+                                            TextStyle(
+                                          fontSize:
+                                              screenWidth >
+                                                      600
+                                                  ? 24
+                                                  : 20,
                                           fontWeight:
-                                          FontWeight.bold,
+                                              FontWeight
+                                                  .bold,
                                         ),
                                       ),
 
-                                      const SizedBox(height: 10),
+                                      const SizedBox(
+                                          height:
+                                              10),
 
                                       Text(
-
                                         movie.year,
-
                                         style:
-                                        const TextStyle(
-
+                                            const TextStyle(
                                           color:
-                                          Colors.grey,
-
-                                          fontSize: 16,
+                                              Colors
+                                                  .grey,
+                                          fontSize:
+                                              16,
                                         ),
                                       ),
 
-                                      const SizedBox(height: 15),
+                                      const SizedBox(
+                                          height:
+                                              15),
 
                                       Row(
-
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-
+                                            MainAxisAlignment
+                                                .spaceBetween,
                                         children: [
-
-                                          // MOVIE BADGE
                                           Container(
-
                                             padding:
-                                            const EdgeInsets.symmetric(
-
-                                              horizontal: 10,
-
-                                              vertical: 5,
+                                                const EdgeInsets.symmetric(
+                                              horizontal:
+                                                  10,
+                                              vertical:
+                                                  5,
                                             ),
-
-                                            decoration: BoxDecoration(
-
+                                            decoration:
+                                                BoxDecoration(
                                               color:
-                                              Colors.red,
-
+                                                  Colors
+                                                      .red,
                                               borderRadius:
-                                              BorderRadius.circular(20),
+                                                  BorderRadius.circular(
+                                                      20),
                                             ),
-
-                                            child: const Text(
-
+                                            child:
+                                                const Text(
                                               'MOVIE',
-
                                               style:
-                                              TextStyle(
-
+                                                  TextStyle(
                                                 fontWeight:
-                                                FontWeight.bold,
+                                                    FontWeight.bold,
                                               ),
                                             ),
                                           ),
 
-                                          // FAVORITE BUTTON
                                           IconButton(
-
-                                            onPressed: () {
-
+                                            onPressed:
+                                                () {
                                               vm.toggleFavorite(
-                                                movie.imdbId,
+                                                movie
+                                                    .imdbId,
                                               );
                                             },
-
-                                            icon: Icon(
-
-                                              vm.isFavorite(movie.imdbId)
-
-                                                  ? Icons.favorite
-                                                  : Icons.favorite_border,
-
-                                              color: Colors.red,
+                                            icon:
+                                                Icon(
+                                              vm.isFavorite(
+                                                      movie.imdbId)
+                                                  ? Icons
+                                                      .favorite
+                                                  : Icons
+                                                      .favorite_border,
+                                              color:
+                                                  Colors
+                                                      .red,
                                             ),
                                           ),
                                         ],
