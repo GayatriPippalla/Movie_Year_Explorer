@@ -17,38 +17,10 @@ class _HomeScreenState extends State<HomeScreen> {
     final vm = context.watch<MovieViewModel>();
 
     final screenWidth =
-    MediaQuery.of(context).size.width;
+        MediaQuery.of(context).size.width;
 
-final isMobile = screenWidth < 600;
-
-final isTablet =
-    screenWidth >= 600 &&
-    screenWidth < 1000;
-
-final isDesktop =
-    screenWidth >= 1000;
-
-final posterWidth =
-    isDesktop
-        ? 150.0
-        : isTablet
-            ? 120.0
-            : 90.0;
-
-final posterHeight =
-    isDesktop
-        ? 220.0
-        : isTablet
-            ? 170.0
-            : 130.0;
-
-final titleFontSize =
-    isDesktop
-        ? 28.0
-        : isTablet
-            ? 24.0
-            : 20.0;
     return Scaffold(
+
       appBar: AppBar(
         title: const Text(
           'Movie Year Explorer',
@@ -75,6 +47,7 @@ final titleFontSize =
                 counterText: '',
                 hintText: 'Enter release year (2025)',
                 hintStyle: const TextStyle(
+                
                   color: Colors.grey,
                 ),
                 prefixIcon: const Icon(

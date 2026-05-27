@@ -7,6 +7,7 @@ import 'core/network/dio_client.dart';
 import 'repositories/movie_repository.dart';
 import 'services/movie_service.dart';
 import 'viewmodels/movie_viewmodel.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +27,9 @@ void main() async {
   final movieRepository = MovieRepository(
     movieService,
   );
+  await Hive.initFlutter();
+
+  await Hive.openBox('favorites');
 
   runApp(
     ChangeNotifierProvider<MovieViewModel>(

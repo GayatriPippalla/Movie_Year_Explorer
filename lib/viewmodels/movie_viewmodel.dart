@@ -4,12 +4,24 @@ import 'package:flutter/material.dart';
 
 import '../models/movie_model.dart';
 import '../repositories/movie_repository.dart';
+import '../services/local_storage_service.dart';
 
+/// ViewModel responsible for:
+/// - Movie search
+/// - Pagination
+/// - Favorites
+/// - UI state management
 class MovieViewModel extends ChangeNotifier {
 
   final MovieRepository repository;
+  final LocalStorageService localStorageService =
+    LocalStorageService();
 
-  MovieViewModel(this.repository);
+  MovieViewModel(this.repository) {
+
+  favoriteMovieIds =
+      localStorageService.getFavorites();
+}
 
   // MOVIES
   List<MovieModel> movies = [];
@@ -189,6 +201,9 @@ class MovieViewModel extends ChangeNotifier {
 
       favoriteMovieIds.add(imdbId);
     }
+    localStorageService.saveFavorites(
+    favoriteMovieIds,
+  );
 
     notifyListeners();
   }
