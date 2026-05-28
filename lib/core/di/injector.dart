@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
-import '../config/app_config.dart';
+import 'package:movie_year_explorer/core/config/app_config.dart';
 
 final sl = GetIt.instance;
 

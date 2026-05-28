@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
-import '../models/movie_details_model.dart';
-import '../models/movie_response.dart';
+import 'package:movie_year_explorer/models/movie_details_model.dart';
+import 'package:movie_year_explorer/models/movie_response.dart';
 
 part 'movie_service.g.dart';
 

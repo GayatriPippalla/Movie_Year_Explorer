@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../models/movie_model.dart';
-import '../repositories/movie_repository.dart';
-import '../services/local_storage_service.dart';
+import 'package:movie_year_explorer/models/movie_model.dart';
+import 'package:movie_year_explorer/repositories/movie_repository.dart';
+import 'package:movie_year_explorer/services/local_storage_service.dart';
 
 /// ViewModel responsible for:
 /// - Movie search

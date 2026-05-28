@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import '../models/user_model.dart';
+import 'package:movie_year_explorer/features/users/data/models/user_model.dart';
 
 List<UserModel> parseUsers(String responseBody) {
   final parsed = jsonDecode(responseBody);

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
-import '../config/app_config.dart';
-import '../constants/api_constants.dart';
+import 'package:movie_year_explorer/core/config/app_config.dart';
+import 'package:movie_year_explorer/core/constants/api_constants.dart';
 
 class DioClient {
   late Dio dio;

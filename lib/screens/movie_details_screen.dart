@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/movie_details_model.dart';
-import '../viewmodels/movie_viewmodel.dart';
+import 'package:movie_year_explorer/models/movie_details_model.dart';
+import 'package:movie_year_explorer/viewmodels/movie_viewmodel.dart';
 
 class MovieDetailsScreen extends StatefulWidget {
 

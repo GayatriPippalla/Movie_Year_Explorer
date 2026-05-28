@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
 
-import '../parsers/user_parser.dart';
-import '../models/user_model.dart';
+import 'package:movie_year_explorer/features/users/data/parsers/user_parser.dart';
+import 'package:movie_year_explorer/features/users/data/models/user_model.dart';
 
 class UserRepository {
   final Dio dio;

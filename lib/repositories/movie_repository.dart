@@ -1,6 +1,6 @@
-import '../models/movie_details_model.dart';
-import '../models/movie_response.dart';
-import '../services/movie_service.dart';
+import 'package:movie_year_explorer/models/movie_details_model.dart';
+import 'package:movie_year_explorer/models/movie_response.dart';
+import 'package:movie_year_explorer/services/movie_service.dart';
 
 class MovieRepository {
 
